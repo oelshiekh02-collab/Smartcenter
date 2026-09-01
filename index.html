@@ -1,0 +1,235 @@
+<p><br /></p>
+<p>&lt;!DOCTYPE html&gt;
+&lt;html lang="ar" dir="rtl"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;3J3*E %/'1) 'D3F*1 'D*9DJEJ 'DE7H1&lt;/title&gt;
+    &lt;!-- EC*() *5/J1 EDA'* Excel --&gt;
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"&gt;&lt;/script&gt;
+    &lt;style&gt;
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f6f9; margin: 0; padding: 15px; }
+        .container { max-width: 1150px; margin: 0 auto; }
+        h1 { text-align: center; color: #1a252f; margin-bottom: 20px; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.07); margin-bottom: 20px; }
+        .form-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        input, select, button { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; flex: 1; min-width: 140px; }
+        button { cursor: pointer; font-weight: bold; border: none; transition: 0.2s; }
+        .btn-add { background-color: #28a745; color: white; }
+        .btn-excel { background-color: #1d6f42; color: white; width: 100%; margin-top: 10px; padding: 12px; font-size: 16px; }
+        .btn-action { padding: 6px 10px; font-size: 12px; border-radius: 4px; margin: 2px; }
+        .btn-present { background-color: #17a2b8; color: white; }
+        .btn-pay { background-color: #ffc107; color: #333; }
+        .btn-score { background-color: #6c757d; color: white; }
+        .btn-whatsapp { background-color: #25D366; color: white; }
+        .btn-delete { background-color: #dc3545; color: white; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
+        th, td { border: 1px solid #dee2e6; padding: 10px; text-align: center; font-size: 13px; }
+        th { background-color: #007bff; color: white; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        .status-badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px; }
+        .bg-success { background: #d4edda; color: #155724; }
+        .bg-danger { background: #f8d7da; color: #721c24; }
+        .bg-warning { background: #fff3cd; color: #856404; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class="container"&gt;
+    &lt;h1&gt;DH-) %/'1) 'D3F*1 'D*9DJEJ 'DE7H1&lt;/h1&gt;
+
+    &lt;!-- FEH0, %6'A) 7'D( --&gt;
+    &lt;div class="card"&gt;
+        &lt;h3&gt;*3,JD 7'D( ,/J/&lt;/h3&gt;
+        &lt;div class="form-group"&gt;
+            &lt;input type="text" id="studentName" placeholder="'3E 'D7'D("&gt;
+            &lt;input type="text" id="studentPhone" placeholder="1BE 'D7'D("&gt;
+            &lt;input type="text" id="parentPhone" placeholder="1BE HDJ 'D#E1 (E+'D: 010xxx)"&gt;
+            &lt;select id="studentGrade"&gt;
+                &lt;option value="'D#HD 'D+'FHJ"&gt;'D#HD 'D+'FHJ&lt;/option&gt;
+                &lt;option value="'D+'FJ 'D+'FHJ"&gt;'D+'FJ 'D+'FHJ&lt;/option&gt;
+                &lt;option value="'D+'D+ 'D+'FHJ"&gt;'D+'D+ 'D+'FHJ&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;button class="btn-add" onclick="addStudent()"&gt;-A8 'D(J'F'*&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ,/HD 'D7D'( H%/'1) 'D*5/J1 --&gt;
+    &lt;div class="card" style="overflow-x: auto;"&gt;
+        &lt;div style="display: flex; justify-content: space-between; align-items: center;"&gt;
+            &lt;h3&gt;(J'F'* H*B'1J1 'D7D'(&lt;/h3&gt;
+        &lt;/div&gt;
+        
+        &lt;table&gt;
+            &lt;thead&gt;
+                &lt;tr&gt;
+                    &lt;th&gt;'DCH/&lt;/th&gt;
+                    &lt;th&gt;'D'3E&lt;/th&gt;
+                    &lt;th&gt;'D5A&lt;/th&gt;
+                    &lt;th&gt;'D-6H1&lt;/th&gt;
+                    &lt;th&gt;'DE5'1JA&lt;/th&gt;
+                    &lt;th&gt;'D/1,)&lt;/th&gt;
+                    &lt;th&gt;%,1'!'* H*-CE&lt;/th&gt;
+                    &lt;th&gt;%13'D *B1J1&lt;/th&gt;
+                &lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody id="studentTable"&gt;&lt;/tbody&gt;
+        &lt;/table&gt;
+
+        &lt;button class="btn-excel" onclick="exportToExcel()"&gt;*5/J1 C'A) 'D(J'F'* %DI EDA Excel =Ê&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    let students = JSON.parse(localStorage.getItem('center_students_v2')) || [];
+
+    function saveAndRender() {
+        localStorage.setItem('center_students_v2', JSON.stringify(students));
+        renderTable();
+    }
+
+    function addStudent() {
+        const name = document.getElementById('studentName').value.trim();
+        const phone = document.getElementById('studentPhone').value.trim();
+        const parentPhone = document.getElementById('parentPhone').value.trim();
+        const grade = document.getElementById('studentGrade').value;
+
+        if (!name || !phone) {
+            alert('(1,'! C*'() '3E 'D7'D( H1BEG');
+            return;
+        }
+
+        const newStudent = {
+            id: students.length &gt; 0 ? students[students.length - 1].id + 1 : 101,
+            name, phone, parentPhone, grade,
+            attended: false,
+            paid: false,
+            score: '-'
+        };
+
+        students.push(newStudent);
+        saveAndRender();
+
+        document.getElementById('studentName').value = '';
+        document.getElementById('studentPhone').value = '';
+        document.getElementById('parentPhone').value = '';
+    }
+
+    function toggleAttendance(index) {
+        students[index].attended = !students[index].attended;
+        saveAndRender();
+    }
+
+    function togglePayment(index) {
+        students[index].paid = !students[index].paid;
+        saveAndRender();
+    }
+
+    function updateScore(index) {
+        const score = prompt('#/.D /1,) 'D'E*-'F DD7'D(:', students[index].score);
+        if (score !== null) {
+            students[index].score = score;
+            saveAndRender();
+        }
+    }
+
+    function deleteStudent(index) {
+        if (confirm('GD #F* *#C/ EF -0A G0' 'D7'D(')) {
+            students.splice(index, 1);
+            saveAndRender();
+        }
+    }
+
+    // %13'D *B1J1 'D7'D( DHDJ 'D#E1 9(1 H'*3'(
+    function sendWhatsApp(index) {
+        const s = students[index];
+        if (!s.parentPhone) {
+            alert('D' JH,/ 1BE G'*A E6'A DHDJ 'D#E1!');
+            return;
+        }
+
+        // *F8JA 1BE 'DG'*A H%6'A) CH/ 'D/HD) %0' D2E
+        let phone = s.parentPhone.replace(/[^0-9]/g, '');
+        if (phone.startsWith('0')) {
+            phone = '2' + phone; // CH/ E51
+        }
+
+        const attendText = s.attended ? '-'61 ' : ':'&( L';
+        const payText = s.paid ? '*E 'D*3/J/ =M' : ':J1 E3//  ';
+
+        const message = `'D3D'E 9DJCE HDJ #E1 'D7'D(/): *${s.name}*%0A` +
+                        `*B1J1 E*'(9) 'D3F*1 'D*9DJEJ:%0A` +
+                        `- -'D) 'D-6H1: ${attendText}%0A` +
+                        `- /1,) 'D'E*-'F: ${s.score}%0A` +
+                        `- -'D) 'DE5'1JA: ${payText}%0A` +
+                        `4C1'K DE*'(9*CE E9F'.`;
+
+        window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+    }
+
+    // *5/J1 'D4J* %DI Excel
+    function exportToExcel() {
+        if (students.length === 0) {
+            alert('D' JH,/ (J'F'* 7D'( D*5/J1G'!');
+            return;
+        }
+
+        const excelData = students.map(s =&gt; ({
+            'CH/ 'D7'D(': s.id,
+            ''3E 'D7'D(': s.name,
+            ''D5A 'D/1'3J': s.grade,
+            '1BE 'D7'D(': s.phone,
+            '1BE HDJ 'D#E1': s.parentPhone,
+            '-'D) 'D-6H1': s.attended ? '-'61' : ':'&(',
+            '-'D) 'D/A9': s.paid ? '*E 'D/A9' : 'E3*-B',
+            ''D/1,)': s.score
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(excelData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "'D7D'(");
+        XLSX.writeFile(workbook, "*B1J1_7D'(_'D3F*1.xlsx");
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById('studentTable');
+        tbody.innerHTML = '';
+
+        students.forEach((s, index) =&gt; {
+            const attendStatus = s.attended 
+                ? '&lt;span class="status-badge bg-success"&gt;-'61&lt;/span&gt;' 
+                : '&lt;span class="status-badge bg-danger"&gt;:'&(&lt;/span&gt;';
+                
+            const payStatus = s.paid 
+                ? '&lt;span class="status-badge bg-success"&gt;*E 'D/A9&lt;/span&gt;' 
+                : '&lt;span class="status-badge bg-warning"&gt;E3*-B&lt;/span&gt;';
+
+            tbody.innerHTML += `
+                &lt;tr&gt;
+                    &lt;td&gt;&lt;b&gt;${s.id}&lt;/b&gt;&lt;/td&gt;
+                    &lt;td&gt;${s.name}&lt;/td&gt;
+                    &lt;td&gt;${s.grade}&lt;/td&gt;
+                    &lt;td&gt;${attendStatus}&lt;/td&gt;
+                    &lt;td&gt;${payStatus}&lt;/td&gt;
+                    &lt;td&gt;&lt;b&gt;${s.score}&lt;/b&gt;&lt;/td&gt;
+                    &lt;td&gt;
+                        &lt;button class="btn-action btn-present" onclick="toggleAttendance(${index})"&gt;'D-6H1&lt;/button&gt;
+                        &lt;button class="btn-action btn-pay" onclick="togglePayment(${index})"&gt;'D/A9&lt;/button&gt;
+                        &lt;button class="btn-action btn-score" onclick="updateScore(${index})"&gt;'D/1,)&lt;/button&gt;
+                        &lt;button class="btn-action btn-delete" onclick="deleteStudent(${index})"&gt;-0A&lt;/button&gt;
+                    &lt;/td&gt;
+                    &lt;td&gt;
+                        &lt;button class="btn-action btn-whatsapp" onclick="sendWhatsApp(${index})"&gt;%13'D H'*3'( =ñ&lt;/button&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            `;
+        });
+    }
+
+    renderTable();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+<br /></p>
